@@ -40,7 +40,7 @@ public class Player {
 	public Board get_board() {
 		return board;
 	}
-	int[] move(int id,int die) {
+	public int[] move(int id,int die) {
 		int where_is_player_now=id;
 		int dice =die;
 		int nextstep=where_is_player_now+dice;
@@ -50,7 +50,7 @@ public class Player {
 		boolean check=false;
 		for(int i=where_is_player_now+1;i<=nextstep;i++) {
 			for(int j=0;j<board.get_Apples().length;j++) {
-				if(i==board.get_Apples()[j].get_appleTiledId() && board.get_Apples()[j].get_points()!=0) {
+				if(i==board.get_Apples()[j].get_appleTiledId() && board.get_Apples()[j].get_points()!=0) {//προς το παρον ολα τα μηλα εχουν 0 ποντους ...Που θα τα αρχικοποιω δεν λεει μεσα η εκφωνηση
 					board.get_Apples()[j].set_points(0);
 					numberofapples=numberofapples+1;
 				}
@@ -69,7 +69,6 @@ public class Player {
 							numberofapples=numberofapples+1;
 						}
 					}
-					break;
 				}
 			}
 			for(int i=0;i<board.get_Ladders().length;i++) {
@@ -84,7 +83,6 @@ public class Player {
 							numberofapples=numberofapples+1;
 						}
 					}
-					break;
 				}
 			}
 			if(check) {

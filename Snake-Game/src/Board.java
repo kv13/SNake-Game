@@ -142,7 +142,6 @@ public class Board {
 	}
   }
 	public void createElementBoard() {
-		int counter;
 		String[][] elementBoardSnakes;
 		String[][] elementBoardLadders;
 		String[][] elementBoardApples;
