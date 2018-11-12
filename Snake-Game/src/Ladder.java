@@ -1,4 +1,5 @@
-
+//η κλαση ladder
+//εδω υλοποιουνται οι συναρτησεις getters setters και οι constructors 
 public class Ladder {
 	private int ladderId;
 	private int upStepId;

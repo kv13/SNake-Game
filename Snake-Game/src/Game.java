@@ -1,6 +1,13 @@
+/* Βεργοπουλος Κωνσταντινος ΑΕΜ8508 email vkonstant@ece.auth.gr 6986786139
+   Κοτσακιαχιδης Γιαννης    ΑΕΜ9029 email ioankots@ece.auth.gr  6982289241
+ */
+
+
+
+
 import java.util.Random;
 public class Game {
-
+//εδω βρισκεται η main απο την οποια ξεκιναει η εκτελεση του προγραμματος .Οριζω δυο παικτες και Φτιαχνω το ταμπλο  του παιχνιδιου αρχικα.
 	public static void main(String[] args) {
 		Random rm;
 		rm=new Random();
@@ -20,11 +27,12 @@ public class Game {
         dice_pl1=0;
         dice_pl2=0;
         int[] array_1,array_2;
-        array_1=new int[4];
-        array_2=new int[4];
+        array_1=new int[5];
+        array_2=new int[5];
         for(;;) {
         	dice_pl1=rm.nextInt(6)+1;
         	dice_pl2=rm.nextInt(6)+1;
+        	 //εδω τυχαια καθοριζω ποιος παικτης θα παιξει πρωτος .
         	if(round==0) {
         		if(dice_pl1<dice_pl2) {
         			seira=1;
@@ -33,6 +41,8 @@ public class Game {
         		else System.out.println("Pl2 first player ");
         		seira=2;
         	}
+        //στον 1ο γυρο ξεκιναει το παιχνιδι .Καλω την move που μας δινει την τελικη θεση του παικτη και ελεγχω αν αυτη η θεση ειναι μεγαλυτερη ή ιση απο την τελικη
+        //θεση του ταμπλο που οριζεται ως ΜxN .Αν καποιος εχει φτασει εκει τοτε το παιχνιδι εχει τελειωσει .
         	if(round!=0) {
         		if(seira==1) {
         			array_1=pl1.move(current_thesis_1,dice_pl1);
@@ -68,6 +78,8 @@ public class Game {
         	round=round+1;
         }
         System.out.println("numberof rounds"+round);
+        System.out.println("STATUS OF PLAYER1 "+pl1.get_score());
+        System.out.println("STATUS OF PLAYER2 "+ pl2.get_score());
 	}
 
 }

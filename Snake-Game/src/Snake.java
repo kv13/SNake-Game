@@ -1,4 +1,5 @@
-
+//η κλαση Snake
+//εδω υλοποιουνται οι συναρτησεις getters setters και οι constructors 
 public class Snake {
 	private int snakeId;
 	private int headId;

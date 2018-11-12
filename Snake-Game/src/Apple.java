@@ -1,4 +1,5 @@
-
+// η κλαση Apple
+//οι μονες συναρτησεις που υλοποιουνται ειναι οι setters και getters και οι constructors 
 public class Apple {
 	private int appleId;
 	private int appleTiledId;
