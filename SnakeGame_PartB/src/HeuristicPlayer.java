@@ -33,7 +33,7 @@ public class HeuristicPlayer extends Player {
 		int counterApples;
 		int counterLadders;
 		boolean checkSnakes=false;
-		//first check for snakes head 
+		//πρωτα ελεγχουμε αμα υπαρχει καποιο φιδι.Σε αυτη την περιπτωση δινουμε -20 και απορριπτουμε την κινηση κατευθειαν 
 		for(counterSnakes=0;counterSnakes<board.getSnakes().length;counterSnakes++) {
 			if(nextStep==board.getSnakes()[counterSnakes].getHeadId()) {
 				evaluation=evaluation-20;
@@ -41,29 +41,34 @@ public class HeuristicPlayer extends Player {
 			}
 		}
 		if(!checkSnakes) {
-			//first check for apples red or black 
+			//αφου βεβαιωθουμε οτι η κινηση δεν μας παει σε στομα φιδιου ελεγχουμε στην αρχη για μηλο .Αν ειναι 
+			//κοκκινο παιρνει +5 η αξιολογηση ενω αν ειναι μαυρο παιρνει -5
 			for(counterApples=0;counterApples<board.getApples().length;counterApples++) {
 				if(nextStep==board.getApples()[counterApples].getAppleTileId()) {
 					if(board.getApples()[counterApples].getColor()=="red" &&(board.getApples()[counterApples].getPoints()!=0))evaluation=evaluation+5;
 					if(board.getApples()[counterApples].getColor()=="black"&& (board.getApples()[counterApples].getPoints()!=0))evaluation=evaluation-10;
 				}
 			}
+			//το πιο σημαντικο ειναι να υπαρχει καποια σκαλα γιατι σε αυτη την περιπτωση κανεις ουσιαστικα πολλαπλα βηματα
+			//και αυξανεις την διαφορα σου με τον αντιπαλο.Οποτε αμα υπαρχει σκαλα τοτε η αξιολογηση παιρνει +20
 			for(counterLadders=0;counterLadders<board.getLadders().length;counterLadders++) {
 				if(nextStep==board.getLadders()[counterLadders].getDownStepId() && !board.getLadders()[counterLadders].getBroken()) {
 					evaluation=evaluation+15;
 				}
-			}
-			//εδω θελω να προσθεσω μια ακομα εντολη η οποια θα προσθετει καποιους ακομα ποντους αν μετα την κινηση αυτη
-			//ο παικτης βρισκεται μπροστα του αντιπαλου 
-			//αν πχ ειναι 3 θα παρει και αλλες 3 μοναδες αν ειναι 6 θα παρει αλλες 6 
+			} 
 		}
+		//εδω προσθετουμε και καποιους ακομα ποντους με το τι ζαρι φερνεις .Αμα στο ευρος των επομενων 6 πλακιδιων
+		//δεν υπαρχει καποιο φιδι ή μηλο ή σκαλα τοτε ο παικτης θα πρεπει να διαλεξει την καλυτερη δυνατη επιλόγη που ειναι 
+		//να κινηθει 6 πλακιδια 
 		evaluation=evaluation +dice;
 		return evaluation;
 	}
+	//εδω ουσιαστικα για τις 6 δυνατες επίλογες καλουμε καθε φορα την συναρτηση αξιολογησης .Συγκρινουμε τα αποτελεσματα
+	//και επιστρεφουμε την κινηση με την καλυτερη αξιολογηση
 	public int getNextMove(int currentPos) {
 		double[][] possibleMoves=new double[6][2];
 		for(int i=1;i<7;i++) {
-			possibleMoves[i-1][0]=(double)i;//or maybe only the dice not the nextPos ...I dont know yet
+			possibleMoves[i-1][0]=(double)i;
 			possibleMoves[i-1][1]=evaluate(currentPos,i);
 		}
 		double max=-100;
@@ -74,6 +79,8 @@ public class HeuristicPlayer extends Player {
 				bestMove=(int)possibleMoves[i][0];
 			}
 		}
+		//σε αυτο το σημειο αποθηκευουμε σε εναν πινακα ουσιαστικα ολα τα στοιχεια που αφορουν την καλυτερη κινηση
+		//δηλαδη αποθηκευουμε ποσα πλακιδια κινηθηκε ποσα μηλα εφαγε ποσες σκαλες ανεβηκε ποσα φιδια τον τσιμπησανε .
 		int[] table=new int[6];
 		int[] table1=new int[5];
 		table1=move(currentPos,bestMove);
@@ -86,7 +93,9 @@ public class HeuristicPlayer extends Player {
 		path.add(table);
 		return table[0];
 		}
-	public void statistics(boolean last) {//it needs the whole statistics to be added
+	//η παρακατω συναρτηση δεν κανει τιποτα παραπανω απο το να εκτυπωνει για την εκαστοτε κινηση τα στατιστικα τησ(μηλα,φιδια κλπ)
+	//ενω τελος υπαρχουν και καποιοι απαριθμητες που μετρανε τα συνολικα στατιστικα του παιχνιδιου 
+	public void statistics(boolean last) {
 		int len;
 		int[] table=new int[6];
 		if(!last) {

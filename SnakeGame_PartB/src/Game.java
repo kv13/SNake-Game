@@ -33,18 +33,21 @@ public class Game {
 		board.createElementBoard();
 		Player player1;
 		player1= new Player(0, "player 1", 0, board);
-		HeuristicPlayer hPlayer2;
+		HeuristicPlayer hPlayer2;//μεχρι εδω τα πραγματα ειναι απλα .Ουσιαστικα ορισαμε καποιες μεταβλητες και αρχικοποιησαμε
+		//2 παικτες τους οποιους βαλαμε σε ενα ArrayList
 		hPlayer2=new HeuristicPlayer(2,"player 2",0,board);
 		ArrayList<Player> players=new ArrayList<Player>(2);
 		players.add(player1);
 		players.add(hPlayer2);
 		Map<Integer,Integer> sorted=new TreeMap<Integer,Integer>();
-		sorted=game.setTurns(players);
+		sorted=game.setTurns(players);//εδω καλειται η συναρτηση που καθοριζει ποιος παικτης παιζει πρωτος
 		int counter=1;
 		for(int i:sorted.keySet()) {
 			System.out.println("Player with id"+sorted.get(i)+"roll the dice "+i+"so he plays"+counter);
 			counter++;	
 		}
+		//επειδη με τα id δεν ξερουμε ουσιαστικα ποιος παικτης παιζει πρωτος το ελεγχουμε εμεις 
+		//αν ειναι ο κανονικος παικτης τοτε η check γινεται αληθης αλλιως ψευδης 
 		for(int i:sorted.keySet()) {
 			if(sorted.get(i)==player1.getID()) {
 				check=true;
@@ -59,6 +62,12 @@ public class Game {
 		for (int i = 0; i < players.size(); i++) {
 			currentPosition[i] = 1;
 		}
+		//αρχικοποιουμε τους παικτες και το παιχνιδι ξεκιναει αναλογως με την check 
+		//Η διαδικασια του παιχνιδιου ειναι απλη.Για τον απλο παικτη ριχνουμε το ζαρι τυχαια και καλουμε την move
+		//για το heuristicplayer το ζαρι το οριζουμε αναλογα με την nextMove που χρησιμοποιει την evaluate για να βρει την 
+		//βελτιστη κινηση.Και προφανως ελεγχουμε ποτε καποιος παικτης φτανει στο τελος ή τελειωσουν οι γυροι μας
+		//Βεβαια το τελευταιο ενδεχομενο(να τελειωσουν οι γυροι ) δεν συμβαινει σχεδον ποτε γιατι ο heuristicPlayer 
+		//ειναι πολυ γρηγορος και νικαει συνεχεια
 		System.out.println("THe game starts now");
 		boolean lastcheck=false;
 		while(game.getRound()<100) {
@@ -109,47 +118,12 @@ public class Game {
 		}
 		System.out.println("");
 		hPlayer2.statistics(lastcheck);
-		
-		/*int[] currentPosition = new int[players.length];
-		int newPosition = 0;
-		String winnerName = null;
-		
-		for (int i = 0; i < players.length; i++) {
-			currentPosition[i] = 0;
-		}
-		
-		System.out.println("*********** The game begins **********");
-		System.out.println();
-		game.round = 0;
-		
-		for (;;) {
-			game.round++;
-			//System.out.println("Round " + game.round);
-			for (int i = 0; i < players.length; i++) {
-				int die = 1 + (int)(Math.random()*6);
-				newPosition = players[i].move(currentPosition[i], die)[0];
-				if (newPosition >= N*M) {
-					winnerName = players[i].getName();
-					break;
-				}
-				currentPosition[i] = newPosition;
-			}
-			if (newPosition >= N*M) {
-				break;
-			}
-		}
-		
-		System.out.println();
-		System.out.println("*********** The game is over *********");
-		System.out.println();
-		System.out.println("Rounds played: "+game.round);
-		
-		for (int i = 0; i < players.length; i++) {
-			System.out.println(players[i].getName()+" gatherd " + players[i].getScore() + " points");
-		}
-		System.out.println(winnerName +" won the game!!!");*/
 		System.exit(1);
 	}
+	//η συναρτηση ελεγχει αν το ζαρι ειναι ιδιο.Αν ειναι τοτε πρεπει να το ξαναριξουμε 
+	//και μετα για τον καθε παικτη αποθηκευει σε ενα hash map το id του και το ζαρι του 
+	//για να μην μπλεξουμε με την ταξινομηση δινουμε τα περιεοχομενα του map σε ενα treemap που κανει απο μονο του την
+	//ταξινομηση 
 	public Map<Integer,Integer> setTurns(ArrayList<Player> players){
 		Map<Integer,Integer> hash=new HashMap<Integer,Integer>();
 		int[] dice=new int[players.size()];
