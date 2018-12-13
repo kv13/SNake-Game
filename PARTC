@@ -1,0 +1,42 @@
+//Only the MinMaxPlayer
+import java.util.ArrayList;
+public class MinMaxPlayer extends Player{
+	ArrayList<int[]> path;
+	
+	
+	
+	//tree-algortihm and chooseMinMax
+	
+	public double evaluate(int currentPos,int dice,Board Nboard) {
+		//για την evaluation στην δικη μας την υλοποιηση ειναι πιο σημαντικο να παμε οσο πιο μακρυα γινεται και σε δευτερη μοιρα να παρουμε καποιο μηλο
+		//γιατι στο τελος αυτος που θα νικησει ειναι αυτος που τερματιζει πρωτος .
+		double evaluation=0;
+		int nextStep=currentPos+dice;
+		int counterSnakes;
+		int counterApples;
+		int  counterLadders;
+		boolean checkSnakes=false;
+		for(counterSnakes=0;counterSnakes<Nboard.getSnakes().length;counterSnakes++) {
+			if(nextStep==Nboard.getSnakes()[counterSnakes].getHeadId()) {
+				evaluation=evaluation-20;
+				checkSnakes=true;
+			}
+		}
+		if(!checkSnakes) {
+			evaluation=2*dice;
+			for(counterLadders=0;counterLadders<Nboard.getLadders().length;counterLadders++) {
+				if(nextStep==Nboard.getLadders()[counterLadders].getDownStepId() && !(Nboard.getLadders()[counterLadders].getBroken())) {
+					evaluation=evaluation+15;
+				}
+			}
+			for(counterApples=0;counterApples<Nboard.getApples().length;counterApples++) {
+				if(nextStep==Nboard.getApples()[counterApples].getAppleTileId()) {
+					if(Nboard.getApples()[counterApples].getColor()=="red"&& (Nboard.getApples()[counterApples].getPoints()!=0))evaluation=evaluation+5;
+					if(Nboard.getApples()[counterApples].getColor()=="black"&& (Nboard.getApples()[counterApples].getPoints()!=0))evaluation=evaluation-10;
+				}
+			}
+		}
+		return evaluation;
+	}
+  
+}
