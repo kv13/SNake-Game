@@ -24,33 +24,33 @@ public class Game {
 	public static void main(String[] args) {
 		int N = 10;
 		int M = 20;
-		int dice;
 		int newPosition = 0;
+		int dice;
 		boolean check=false;
 		Game game = new Game(0);
 		Board board = new Board(N, M, 3, 3, 6);
 		board.createBorad();
 		board.createElementBoard();
 		Player player1;
-		player1= new Player(0, "player 1", 0, board);
-		HeuristicPlayer hPlayer2;
-		hPlayer2=new HeuristicPlayer(2,"player 2",0,board);
+		player1=new Player(1,"player1",0,board);
+		MinMaxPlayer player2;
+		player2=new MinMaxPlayer(2,"player 2",0,board);
 		ArrayList<Player> players=new ArrayList<Player>(2);
 		players.add(player1);
-		players.add(hPlayer2);
+		players.add(player2);
 		Map<Integer,Integer> sorted=new TreeMap<Integer,Integer>();
 		sorted=game.setTurns(players);
 		int counter=1;
 		for(int i:sorted.keySet()) {
 			System.out.println("Player with id"+sorted.get(i)+"roll the dice "+i+"so he plays"+counter);
-			counter++;	
+			counter++;
 		}
 		for(int i:sorted.keySet()) {
 			if(sorted.get(i)==player1.getID()) {
 				check=true;
 				break;
 			}
-			if(sorted.get(i)==hPlayer2.getID()) {
+			if(sorted.get(i)==player2.getID()) {
 				check=false;
 				break;
 			}
@@ -59,7 +59,10 @@ public class Game {
 		for (int i = 0; i < players.size(); i++) {
 			currentPosition[i] = 1;
 		}
-		System.out.println("THe game starts now");
+		System.out.println("*********** The game begins **********");
+		System.out.println();
+		game.setRound(0);
+		boolean lastcheck=false;
 		while(game.getRound()<100) {
 			for(int i=0;i<sorted.size();i++) {
 				if(check) {
@@ -70,52 +73,41 @@ public class Game {
 						System.out.println("Player"+player1.getName()+"won");
 						break;
 					}
-					dice=hPlayer2.getNextMove(currentPosition[1]);
-					newPosition=hPlayer2.move(currentPosition[1],dice)[0];
+					dice=player2.getNextMove(currentPosition[1],currentPosition[0]);
+					newPosition=player2.move(currentPosition[1],dice)[0];//also this one need work
 					currentPosition[1]=newPosition;
+					//this one need implementation player2.statistics(lastcheck);
 					if(currentPosition[1]>N*M) {
-						System.out.println("Player"+hPlayer2.getName()+"won");
+						System.out.println("Player"+player2.getName()+"won");
+						lastcheck=true;
 						break;
 					}
 				}
 				if(!check) {
-					dice=hPlayer2.getNextMove(currentPosition[0]);
-					newPosition=hPlayer2.move(currentPosition[0],dice)[0];
+					dice=player2.getNextMove(currentPosition[0],currentPosition[1]);
+					newPosition=player2.move(currentPosition[0],dice)[0];//i need to work it
 					currentPosition[0]=newPosition;
+					//player2.statistics(lastcheck);WORK IS NEED
 					if(currentPosition[0]>N*M) {
-						System.out.println("Player"+hPlayer2.getName()+"won");
+						System.out.println("Player"+player2.getName()+"won");
+						lastcheck=true;
 						break;
 					}
 					dice=(int)(Math.random()*6+1);
-					newPosition=player1.move(currentPosition[1],dice)[0];
+					newPosition=player1.move(currentPosition[1],dice)[0];//i need to work on it 
 					currentPosition[1]=newPosition;
 					if(currentPosition[1]>N*M) {
 						System.out.println("Player"+player1.getName()+"won");
 						break;
-					}
+					}					
 				}
 			}
-			if(currentPosition[0]>(N*M) || currentPosition[1]>(N*M))break;
-			game.setRound(game.getRound()+1);
-			
+			if(game.getRound()==100) {
+				System.out.println("the game has reach its limit of 100 rounds");
+			}			
 		}
-		if(game.getRound()==100) {
-			System.out.println("the game has reach its limit of 100 rounds");
-		}
-		
-		/*int[] currentPosition = new int[players.length];
-		int newPosition = 0;
-		String winnerName = null;
-		
-		for (int i = 0; i < players.length; i++) {
-			currentPosition[i] = 0;
-		}
-		
-		System.out.println("*********** The game begins **********");
-		System.out.println();
-		game.round = 0;
-		
-		for (;;) {
+	}
+		/*for (;;) {
 			game.round++;
 			//System.out.println("Round " + game.round);
 			for (int i = 0; i < players.length; i++) {
@@ -140,9 +132,9 @@ public class Game {
 		for (int i = 0; i < players.length; i++) {
 			System.out.println(players[i].getName()+" gatherd " + players[i].getScore() + " points");
 		}
-		System.out.println(winnerName +" won the game!!!");*/
-		System.exit(1);
-	}
+		System.out.println(winnerName +" won the game!!!");
+		
+	}*/
 	public Map<Integer,Integer> setTurns(ArrayList<Player> players){
 		Map<Integer,Integer> hash=new HashMap<Integer,Integer>();
 		int[] dice=new int[players.size()];
@@ -163,5 +155,4 @@ public class Game {
 		Map<Integer,Integer> tree=new TreeMap<Integer,Integer>(hash);
 		return tree;
 	}
-
 }
