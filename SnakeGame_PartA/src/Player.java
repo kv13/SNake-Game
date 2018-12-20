@@ -17,7 +17,12 @@ public class Player {
 		score = s;
 		board = b;
 	}
-	
+	public int getID() {
+		return playerId;
+	}
+	public void setID(int id) {
+		playerId=id;
+	}
 	public String getName() {
 		return(name);
 	}
@@ -81,11 +86,10 @@ public class Player {
 		result[0] = newPosition;
 		return(result);
 	}
-	
-	public int[] move(int id, int die ,Board nBoard) {
+	public int[] move(int id, int die,Board Nboard) {//κανω overriding την συναρτηση για να μπορω να την καλω για το καθε board που δημιουργω για καθε κινηση
+		int Nscore=0;
 		int newPosition = id + die;
 		boolean flag;
-		double virtualscore=score;
 		int[] result = new int[5];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = 0;
@@ -94,42 +98,42 @@ public class Player {
 		do {
 			flag = false;
 			// check for snake' s head
-			for (int j = 0; j < nBoard.getSnakes().length ; j++) {
-				 if (nBoard.getSnakes()[j].getHeadId() == newPosition) {
+			for (int j = 0; j < Nboard.getSnakes().length ; j++) {
+				 if (Nboard.getSnakes()[j].getHeadId() == newPosition) {
 					 flag = true;
-					 newPosition = nBoard.getSnakes()[j].getTailId();
+					 newPosition =Nboard.getSnakes()[j].getTailId();
 					 result[1]++;
-					 System.out.println(name + " was bitten by a snake");
+					 System.out.println(name + " was bitten by a snake if he makes that move");
 					 break;
 				 }
 			 }
 			
 			// check for ladder's downstep 
-			for (int j = 0; j < nBoard.getLadders().length ; j++) {
-				 if (nBoard.getLadders()[j].getDownStepId() == newPosition) {
-					 if (nBoard.getLadders()[j].getBroken() == false) {
+			for (int j = 0; j <Nboard.getLadders().length ; j++) {
+				 if (Nboard.getLadders()[j].getDownStepId() == newPosition) {
+					 if (Nboard.getLadders()[j].getBroken() == false) {
 						 flag = true;
-						 newPosition = nBoard.getLadders()[j].getUpStepId();
+						 newPosition =Nboard.getLadders()[j].getUpStepId();
 						 result[2]++;
-						 System.out.println(name + " climped a ladder");
-						 nBoard.getLadders()[j].setBroken(true);
+						 System.out.println(name + " climped a ladder if he makes this move");
+						 Nboard.getLadders()[j].setBroken(true);
 						 break;
 					 }
 				 }
 			 }
 			
 			// check for apple
-			for (int j = 0; j < nBoard.getApples().length ; j++) {
-				 if (nBoard.getApples()[j].getAppleTileId() == newPosition) {
-					 if (nBoard.getApples()[j].getColor() == "red"){
-					     virtualscore += nBoard.getApples()[j].getPoints(); 
+			for (int j = 0; j <Nboard.getApples().length ; j++) {
+				 if (Nboard.getApples()[j].getAppleTileId() == newPosition) {
+					 if (Nboard.getApples()[j].getColor() == "red"){
+					     Nscore +=Nboard.getApples()[j].getPoints(); 
 					     result[3]++;
 					 }else {
-						 virtualscore -= nBoard.getApples()[j].getPoints();
+						 Nscore -=Nboard.getApples()[j].getPoints();
 						 result[4]++;
 					 }
-					 nBoard.getApples()[j].setPoint(0); 
-					 System.out.println(name + " ate a " + nBoard.getApples()[j].getColor() + " apple");
+					 Nboard.getApples()[j].setPoint(0); 
+					 System.out.println(name + " ate a " +Nboard.getApples()[j].getColor() + " apple");
 					 break;
 				 }
 			 }
@@ -138,4 +142,5 @@ public class Player {
 		result[0] = newPosition;
 		return(result);
 	}
+	
 }
