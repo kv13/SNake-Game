@@ -1,4 +1,9 @@
 import java.util.ArrayList;
+/*η κλαση Node χρησιμοποιειται  για να αποθηκευει τα δεδομενο καθε πιθανης κινησης τοσο του παικτη μας οσο και του αντιπαλου .Τα αντικειμενα τυπου NOde 
+ * που θα φτιαχνονται θα χρησιμοποιουνται στο δενδρο μας που θα φτιαξουμε για να αξιολογησουμε τις κινησεις μας 
+ * Χρησιμοποιω 4 constructors .Εναν κενο που αρχικοποιω και δινω διευθυνσεις στις μεταβλητες εναν που χρησιμοποιω  για τις ριζες που δεν εχουν παιδια 
+ * εναν για να αντιγραφω node σε node και εναν για τα παιδια του δενδρου .Ακομα οριζω και ολες τις συναρτησεις setters και getters για τις μεταβλητες μου 
+ */
 public class Node {
 	Node parent;
 	ArrayList<Node>children;
@@ -16,7 +21,7 @@ public class Node {
 	}
 	public Node(int nDepth,Board nBoard) {
 		//this is the constructor for the roots
-		parent=new Node();//maybe this one is not need it 
+		parent=new Node();//maybe this is not necessary
 		parent=null;
 		nodeDepth=nDepth;
 		nodeBoard=new Board(nBoard);

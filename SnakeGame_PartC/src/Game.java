@@ -1,3 +1,9 @@
+/*
+ * Η game δεν αλλαζει και πολυ σε σχεση με την δευτερη εργασια.Υπαρχει μια συναρτηση που οριζει ποιος παικτης θα παιξει πρωτος και ποιος δευτερος 
+ * Και μετα μεσα στην main απλως αντι για τον heuristic player χρησιμοποιω εναν minmaxplayer
+ * Ο αντιπαλος παιζει κανονικα και το ζαρι υλοποιειται με την math.random() .Ο δικος μας παικτης χρησιμοποιει τις συναρτησεις της κλασης MinMax
+ * 
+ */
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -17,7 +23,7 @@ public class Game {
 		return round;
 	}
 	
-	public void setRound(int r) {
+	public  void setRound(int r) {
 		this.round = r;
 	}
 
@@ -97,6 +103,8 @@ public class Game {
 					}
 				}
 			}
+			if(currentPosition[0]>N*M || currentPosition[1]>N*M)break;
+			game.setRound(game.getRound()+1);
 			if(game.getRound()==100){
 				System.out.println("the game has reached the limit of 100 rounds");
 						break;

@@ -1,4 +1,8 @@
-
+//εδω το μονο που αλλαζει σε σχεση με την προηγουμενη εργασια ειναι οτι εχω κανει overload την συναρτηση move .Τωρα η δευτερη συναρτηση παιρνει ενα ορισμα τυπου Board 
+//ετσι ωστε να μπορω να προσομοιωνω ολες τις κινησεις των παικτων  χωρίς ομως να χαλάω τις καταστασεις των μηλων-φιδιων-σκαλων.
+//Για παραδειγμα αμα δεν υπηρχε η προσομοιωση και ο παικτης μας στον ελεγχο των κινησεων έπεφτε πανω σε ενα μαυρο   μηλο θα το ετρωγε .Τοτε ομως η αξιολογηση της 
+//κινησης αυτης θα ηταν χαμηλη και στην τελικη επιλογη σίγουρα θα απορρίπτονταν.Ομως το μηλο το μαύρο φαγώθηκε στο κανονικο ταμπλο ασχετα που στο τελος ο παικτης
+//δεν πηγε στη θεση με το μαυρο μηλο .Αυτο το προβλημα το καλυπτει το καλεσμα της συναρτησης δίνοντας ομως έναν κλώνο του αρχικού ταμπλό
 public class Player {
 	int playerId;
 	String name;
@@ -36,7 +40,7 @@ public class Player {
 		for (int i = 0; i < result.length; i++) {
 			result[i] = 0;
 		}
-		
+		System.out.println(name+" makes the move "+die);
 		do {
 			flag = false;
 			// check for snake' s head
@@ -93,7 +97,7 @@ public class Player {
 		for (int i = 0; i < result.length; i++) {
 			result[i] = 0;
 		}
-		
+		System.out.println("if the player moves  "+die+"he will do the next things");
 		do {
 			flag = false;
 			// check for snake' s head
@@ -102,7 +106,7 @@ public class Player {
 					 flag = true;
 					 newPosition = nBoard.getSnakes()[j].getTailId();
 					 result[1]++;
-					 System.out.println(name + " was bitten by a snake");
+					 System.out.println( " was bitten by a snake");
 					 break;
 				 }
 			 }
@@ -114,7 +118,7 @@ public class Player {
 						 flag = true;
 						 newPosition = nBoard.getLadders()[j].getUpStepId();
 						 result[2]++;
-						 System.out.println(name + " climped a ladder");
+						 System.out.println(" climped a ladder");
 						 nBoard.getLadders()[j].setBroken(true);
 						 break;
 					 }
@@ -132,7 +136,7 @@ public class Player {
 						 result[4]++;
 					 }
 					 nBoard.getApples()[j].setPoint(0); 
-					 System.out.println(name + " ate a " + nBoard.getApples()[j].getColor() + " apple");
+					 System.out.println( " ate a " + nBoard.getApples()[j].getColor() + " apple");
 					 break;
 				 }
 			 }
