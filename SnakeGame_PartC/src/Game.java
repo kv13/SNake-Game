@@ -30,6 +30,7 @@ public class Game {
 	public static void main(String[] args) {
 		int N = 10;
 		int M = 20;
+		int[] table=new int[5];
 		Game game = new Game(0);
 		Board board = new Board(N, M, 3, 3, 6);
 		board.createBorad();
@@ -79,7 +80,9 @@ public class Game {
 						break;
 					}
 					dice=player2.getNextMove(currentPosition[1], currentPosition[1]);
-					newPosition=player2.move(currentPosition[1], dice)[0];
+					table=player2.move(currentPosition[1], dice);
+					newPosition=table[0];
+					player2.set_Array(table);
 					currentPosition[1]=newPosition;
 					if(currentPosition[1]>N*M) {
 						System.out.println("player2 won");

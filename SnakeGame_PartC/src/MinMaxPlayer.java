@@ -29,6 +29,9 @@ public class MinMaxPlayer extends Player{
 	public ArrayList<int[]> getArray(){
 		return path;
 	}
+	public void set_Array(int[] table) {
+		path.add(table);
+	}
 	public int getNextMove(int currentPos,int opponentCurrentPos) {
 		Node root;
 		int depth=0;
